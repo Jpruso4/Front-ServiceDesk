@@ -1,0 +1,84 @@
+<div
+  class="
+    mdl-layout mdl-js-layout
+    mdl-layout--fixed-drawer mdl-layout--fixed-header
+  "
+>
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <div class="mdl-layout-spacer"></div>
+      <div
+        class="
+          mdl-textfield mdl-js-textfield
+          mdl-textfield--expandable
+          mdl-textfield--floating-label
+          mdl-textfield--align-right
+        "
+      >
+        <label
+          class="mdl-button mdl-js-button mdl-button--icon"
+          for="fixed-header-drawer-exp"
+        >
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input
+            class="mdl-textfield__input"
+            type="text"
+            name="sample"
+            id="fixed-header-drawer-exp"
+          />
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer" style="background-color: whitesmoke; border-radius: 10px">
+    <span class="mdl-layout-title" style="color: white; background-color: #0d47a1;"><strong>ServiceDesk Poli</strong></span>
+    <br>
+    <span style="margin-left: 10px; color: black;"><i class="fas fa-user"></i><strong> {{tecnico.nombres}}</strong></span> 
+    <span style="margin-left: 10px; color: black;"><i class="fas fa-envelope-open-text"></i> {{tecnico.correo}}</span>   
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" style="color: black;" href="/maquinas"><i class="fas fa-clipboard-list"></i> Equipos</a>
+      <a class="mdl-navigation__link" style="color: black;" href="/reportes"><i class="fas fa-clipboard-list"></i> Reportes</a>
+      <a class="mdl-navigation__link" style="color: black;" href="/tecnicos"><i class="fas fa-clipboard-list"></i> Tecnicos</a>
+      <a style="color: black; margin-top: 360px;" class="mdl-navigation__link" href=""><i class="fas fa-external-link-alt"></i> Cerrar Sesión</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+        <div class="mdl-cell mdl-cell--12-col">
+          <h4><strong>Incidentes</strong></h4>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
+            <thead style="text-align: center;">
+              <tr>
+              <th style="text-align: center;" ><strong>Id Incidente</strong></th>
+              <th style="text-align: center;" ><strong>Nombre Tecnico</strong></th>
+              <th style="text-align: center;" ><strong>Fecha Registro</strong></th>
+              <th style="text-align: center;" ><strong>Fecha Solución</strong></th>
+              <th style="text-align: center;" ><strong>Correo Usuario</strong></th>
+              <th style="text-align: center;" ><strong>N° Computador</strong></th>
+              <th style="text-align: center;" ><strong>Bloque Dependencia</strong></th>
+              <th style="text-align: center;" ><strong>N° Depedencia</strong></th>
+              <th style="text-align: center;" ><strong>Estado</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let incidente of incidentes.body;">
+                <td style="text-align: center;">{{ incidente.idIncidente }}</td>
+                <td style="text-align: center;">{{ incidente.tecnico.nombres}}</td>
+                <td style="text-align: center;">{{ incidente.fecha }}</td>
+                <td style="text-align: center;">{{ incidente.fechaSolucion }}</td>
+                <td style="text-align: center;">{{ incidente.usuario.correo}}</td>
+                <td style="text-align: center;">{{ incidente.maquina.numeroComputador}}</td>
+                <td style="text-align: center;">{{ incidente.maquina.bloqueDependencia.nombreBloqueDependencia}}</td>
+                <td style="text-align: center;">{{ incidente.maquina.numeroDependencia.numeroDependencia}}</td>
+                <td style="text-align: center;">{{ incidente.estado}}</td>  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </main>
+</div>

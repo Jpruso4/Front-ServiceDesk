@@ -1,0 +1,221 @@
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+          <label
+            class="mdl-button mdl-js-button mdl-button--icon"
+            for="fixed-header-drawer-exp"
+          >
+            <i class="material-icons">search</i>
+          </label>
+          <div class="mdl-textfield__expandable-holder">
+            <input
+              class="mdl-textfield__input"
+              type="text"
+              name="sample"
+              id="fixed-header-drawer-exp"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer" style="background-color: whitesmoke; border-radius: 10px">
+      <span class="mdl-layout-title" style="color: white; background-color: #0d47a1;"><strong>ServiceDesk Poli</strong></span>
+      <br>
+      <span style="margin-left: 10px; color: black;"><i class="fas fa-user"></i><strong> {{tecnicoSesion.nombres}}</strong></span> 
+      <span style="margin-left: 10px; color: black;"><i class="fas fa-envelope-open-text"></i> {{tecnicoSesion.correo}}</span>   
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" style="color: black;" href="/admin"><i class="fas fa-clipboard-list"></i> Incidentes</a>
+          <a class="mdl-navigation__link" style="color: black;" href="/maquinas"><i class="fas fa-clipboard-list"></i> Equipos</a>
+          <a class="mdl-navigation__link" style="color: black;" href="/reportes"><i class="fas fa-clipboard-list"></i> Reportes</a>
+          <a style="color: black; margin-top: 360px;" class="mdl-navigation__link" href=""><i class="fas fa-external-link-alt"></i> Cerrar Sesión</a>
+      </nav>
+    </div>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+          <div class="mdl-cell mdl-cell--12-col">
+            <h4><strong>Tecnicos</strong></h4>
+            <button (click)="openModal(contenidoAgregar, tecnicoSesion.idTecnico)" type="button" style="border-radius: 17px;" class="btn btn-success">
+              Agregar Tecnico
+            </button>
+          </div>
+          <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
+              <thead style="text-align: center;">
+                <tr>
+                <th style="text-align: center;" ><strong>Id Tecnico</strong></th>
+                <th style="text-align: center;" ><strong>Número Documento</strong></th>
+                <th style="text-align: center;" ><strong>Tipo Tecnico</strong></th>
+                <th style="text-align: center;" >Nombres</th>
+                <th style="text-align: center;" >Apellidos</th>
+                <th style="text-align: center;" >Celular</th>
+                <th style="text-align: center;" >Correo</th>
+                <th style="text-align: center;" >Contraseña</th>
+                <th style="text-align: center;" >Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tecnico of tecnicos.body;">
+                  <td style="text-align: center;">{{ tecnico.idTecnico }}</td>
+                  <td style="text-align: center;">{{ tecnico.numeroDocumento }}</td>
+                  <td style="text-align: center;">{{ tecnico.tipoTecnico.especialidad}}</td>
+                  <td style="text-align: center;">{{ tecnico.nombres}}</td>
+                  <td style="text-align: center;">{{ tecnico.apellidos}}</td>
+                  <td style="text-align: center;">{{ tecnico.celular}}</td>
+                  <td style="text-align: center;">{{ tecnico.correo}}</td>
+                  <td style="text-align: center;">{{ tecnico.contrasena}}</td>
+                  <td>
+                    <button type="button" style="border-radius: 17px;" class="btn btn-warning" (click)="openModalEditar(contenidoEditar, tecnico)">
+                      Editar
+                    </button>
+                    <button type="button" style="border-radius: 17px;" class="btn btn-danger" (click)="eliminarTecnico(tecnico.idTecnico)">
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </main>
+  </div>
+
+  <ng-template #contenidoEditar let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Editar Tecnico</h4>
+      <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="md-12">
+          <label class="form-label">Id Tecnico</label>
+          <input type="text" readonly="readonly" class="form-control" name="idTecnico" [(ngModel)]="idTecnicoEdit">
+        </div>
+        <div class="md-12">
+          <label for="exampleDataList" class="form-label">Seleccione el tipo de Documento</label>
+          <select name="tipoDocumentoEdit" [(ngModel)]="tipoDocumentoEdit" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected></option>
+            <option>Cédula Ciudadanía</option>
+            <option>Tarjeta de Identidad</option>
+            <option>Cédula Extranjería</option>
+            <option>Pasaporte</option>
+          </select>
+        </div>
+        <div class="md-12">
+          <label class="form-label">Numero de Documento</label>
+          <input type="text" class="form-control" name="numeroDocumentoEdit" [(ngModel)]="numeroDocumentoEdit">
+        </div>
+        <div class="md-12">
+          <label for="exampleDataList" class="form-label">Seleccione el tipo de tecnico</label>
+          <select name="tipoTecnicoEdit" [(ngModel)]="tipoTecnicoEdit" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected></option>
+            <option>Redes - Comunicaciones</option>
+            <option>Mantenimiento</option>
+            <option>Sistemas Operativos</option>
+            <option>Call Center</option>
+            <option>Servidores</option>
+            <option>Admin</option>
+          </select>
+        </div>
+        <div class="md-12">
+          <label class="form-label">Nombres</label>
+          <input type="text" class="form-control" name="nombresEdit" [(ngModel)]="nombresEdit">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Apellidos</label>
+          <input type="text" class="form-control" name="apellidosEdit" [(ngModel)]="apellidosEdit">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Teléfono</label>
+          <input type="text" class="form-control" name="telefonoEdit" [(ngModel)]="telefonoEdit">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Celular</label>
+          <input type="text" class="form-control" name="celularEdit" [(ngModel)]="celularEdit">
+        </div> 
+        <div class="md-12">
+          <label class="form-label">Correo</label>
+          <input type="email" class="form-control" name="correoEdit" [(ngModel)]="correoEdit">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Contraseña</label>
+          <input type="email" class="form-control" name="contrasenaEdit" [(ngModel)]="contrasenaEdit">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer"> 
+      <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+      <button type="button" class="btn btn-success" (click)="editarTecnico()">Editar</button>
+    </div>
+  </ng-template>
+  
+  <ng-template #contenidoAgregar let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title"><strong>Agregar Tecnico</strong></h4>
+      <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="md-12">
+          <label for="exampleDataList" class="form-label">Seleccione el tipo de Documento</label>
+          <select name="tipoDocumentoNew" [(ngModel)]="tipoDocumentoNew" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected></option>
+            <option>Cédula Ciudadanía</option>
+            <option>Tarjeta de Identidad</option>
+            <option>Cédula Extranjería</option>
+            <option>Pasaporte</option>
+          </select>
+        </div>
+        <div class="md-12">
+          <label class="form-label">Numero de Documento</label>
+          <input type="text" class="form-control" name="numeroDocumentoNew" [(ngModel)]="numeroDocumentoNew">
+        </div>
+        <div class="md-12">
+          <label for="exampleDataList" class="form-label">Seleccione el tipo de tecnico</label>
+          <select name="tipoTecnicoNew" [(ngModel)]="tipoTecnicoNew" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected></option>
+            <option>Redes - Comunicaciones</option>
+            <option>Mantenimiento</option>
+            <option>Sistemas Operativos</option>
+            <option>Call Center</option>
+            <option>Servidores</option>
+            <option>Admin</option>
+          </select>
+        </div>
+        <div class="md-12">
+          <label class="form-label">Nombres</label>
+          <input type="text" class="form-control" name="nombresNew" [(ngModel)]="nombresNew">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Apellidos</label>
+          <input type="text" class="form-control" name="apellidosNew" [(ngModel)]="apellidosNew">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Teléfono</label>
+          <input type="text" class="form-control" name="telefonoNew" [(ngModel)]="telefonoNew">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Celular</label>
+          <input type="text" class="form-control" name="celularNew" [(ngModel)]="celularNew">
+        </div> 
+        <div class="md-12">
+          <label class="form-label">Correo</label>
+          <input type="email" class="form-control" name="correoNew" [(ngModel)]="correoNew">
+        </div>
+        <div class="md-12">
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" name="contrasenaNew" [(ngModel)]="contrasenaNew">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer"> 
+      <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+      <button type="button" class="btn btn-success"(click)="agregarTecnico()">Agregar</button>
+    </div>
+  </ng-template>
+  

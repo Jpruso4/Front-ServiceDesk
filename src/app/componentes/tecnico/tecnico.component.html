@@ -1,20 +1,8 @@
-<div
-  class="
-    mdl-layout mdl-js-layout
-    mdl-layout--fixed-drawer mdl-layout--fixed-header
-  "
->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
       <div class="mdl-layout-spacer"></div>
-      <div
-        class="
-          mdl-textfield mdl-js-textfield
-          mdl-textfield--expandable
-          mdl-textfield--floating-label
-          mdl-textfield--align-right
-        "
-      >
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
         <label
           class="mdl-button mdl-js-button mdl-button--icon"
           for="fixed-header-drawer-exp"
@@ -35,11 +23,11 @@
   <div class="mdl-layout__drawer" style="background-color: whitesmoke; border-radius: 10px">
     <span class="mdl-layout-title" style="color: white; background-color: #0d47a1;"><strong>ServiceDesk Poli</strong></span>
     <br>
-    <span style="margin-left: 10px; color: black;"><i class="fas fa-user"></i><strong> Nombre Tecnico</strong></span> 
-    <span style="margin-left: 10px; color: black;"><i class="fas fa-envelope-open-text"></i> tecnico@example.com</span>   
+    <span style="margin-left: 10px; color: black;"><i class="fas fa-user"></i><strong> {{tecnico.nombres}}</strong></span> 
+    <span style="margin-left: 10px; color: black;"><i class="fas fa-envelope-open-text"></i> {{tecnico.correo}}</span>   
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" style="color: black;" href="/tecnico"><i class="fas fa-clipboard-list"></i> Tickets</a>
-      <a style="margin-top: 480px; color: black;" class="mdl-navigation__link" href="/login"><i class="fas fa-external-link-alt"></i> Cerrar Sesión</a>
+      <a style="margin-top: 480px; color: black;" class="mdl-navigation__link" href=""><i class="fas fa-external-link-alt"></i> Cerrar Sesión</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -51,22 +39,105 @@
           <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
             <thead style="text-align: center;">
               <tr>
-              <th><strong>Id Incidente</strong></th>
-              <th><strong>Fecha Registro</strong></th>
-              <th><strong>Correo Usuario</strong></th>
-              <th>N° Computador</th>
-              <th>Bloque Dependencia</th>
-              <th>N° Depedencia</th>
-              <th>Estado</th>
-              <th>Escalonar</th>
-              <th>Solucionar</th>
+              <th style="text-align: center;" ><strong>Id Incidente</strong></th>
+              <th style="text-align: center;" ><strong>Fecha Registro</strong></th>
+              <th style="text-align: center;" ><strong>Declaracion CallCenter</strong></th>
+              <th style="text-align: center;" >N° Computador</th>
+              <th style="text-align: center;" >Bloque Dependencia</th>
+              <th style="text-align: center;" >N° Depedencia</th>
+              <th style="text-align: center;" >Estado</th>
+              <th style="text-align: center;" >Escalonar</th>
+              <th style="text-align: center;" >Solucionar</th>
               </tr>
             </thead>
             <tbody>
-
+              <tr *ngFor="let incidente of incidentes.body;">
+                <td style="text-align: center;">{{ incidente.idIncidente }}</td>
+                <td style="text-align: center;">{{ incidente.fecha }}</td>
+                <td style="text-align: center;">{{ incidente.declaracionCallcenter}}</td>
+                <td style="text-align: center;">{{ incidente.maquina.numeroComputador}}</td>
+                <td style="text-align: center;">{{ incidente.maquina.bloqueDependencia.nombreBloqueDependencia}}</td>
+                <td style="text-align: center;">{{ incidente.maquina.numeroDependencia.numeroDependencia}}</td>
+                <td style="text-align: center;">{{ incidente.estado }}</td>
+                <td>
+                  <button *ngIf="incidente.idTecnicoEscalono === 0" type="button" style="border-radius: 17px;" class="btn btn-primary" (click)="openModalEscalonar(contenidoEscalonar, incidente.idIncidente)">
+                    Escalonar
+                  </button>
+                </td>
+                <td>
+                  <button type="button" style="border-radius: 17px;" class="btn btn-success" (click)="openModal(contenidoResolver, incidente.idIncidente)">
+                    Resolver
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
     </div>
   </main>
 </div>
+
+<ng-template #contenidoEscalonar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Escalonar Incidente</h4>
+    <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+        <label for="declaracionEscalonado" class="form-label">¿Cual es el motivo de escalonamiento?</label>
+        <textarea class="form-control" id="declaracionEscalonado" rows="2" name="declaracionEscalonado" [(ngModel)]="declaracionEscalonado"></textarea>
+      </div>
+      <div class="md-12">
+        <label for="exampleDataList" class="form-label">Seleccione el tipo de Incidente</label>
+        <select (change)="arrayTipoTecnicos()" name="asignarTipoIncidente" [(ngModel)]="asignarTipoIncidente" class="form-select form-select-sm" aria-label=".form-select-sm example">
+          <option selected></option>
+          <option>Redes - Comunicaciones</option>
+          <option>Mantenimiento</option>
+          <option>Sistemas Operativos</option>
+          <option>Servidores</option>
+        </select>
+      </div>
+      <div class="md-12">
+        <label for="exampleDataList" class="form-label">Asignar Tecnico</label>
+        <select name="asignarTecnico" [(ngModel)]="asignarTecnico" class="form-select form-select-sm" aria-label=".form-select-sm example">
+          <option selected></option>
+          <option value="" *ngFor="let tecnicoTipoIncidente of tecnicosTipoIncidente.body">
+            {{tecnicoTipoIncidente.nombres}}
+          </option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer"> 
+    <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+    <button type="button" class="btn btn-success" (click)="escalonarIncidente()">Escalonar</button>
+  </div>
+</ng-template>
+
+<ng-template #contenidoResolver let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title"><strong>Resolver Incidente</strong></h4>
+    <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+        <label for="fechaSolucion" class="form-label">Fecha de Solución</label>
+        <input type="date" class="form-control" id="fechaSolucion" name="fechaSolucion" [(ngModel)]="fechaSolucion">
+      </div>
+      <div class="mb-12">
+        <label for="declaracionTecnico" class="form-label">Proceso Utilizdo para resolver el problema</label>
+        <textarea class="form-control" id="declaracionTecnico" rows="2" name="declaracionTecnico" [(ngModel)]="declaracionTecnico"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer"> 
+    <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+    <button type="button" class="btn btn-success" (click)="resolverIncidente()">Resolver</button>
+  </div>
+</ng-template>

@@ -1,0 +1,229 @@
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+          <label
+            class="mdl-button mdl-js-button mdl-button--icon"
+            for="fixed-header-drawer-exp"
+          >
+            <i class="material-icons">search</i>
+          </label>
+          <div class="mdl-textfield__expandable-holder">
+            <input
+              class="mdl-textfield__input"
+              type="text"
+              name="sample"
+              id="fixed-header-drawer-exp"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer" style="background-color: whitesmoke; border-radius: 10px">
+      <span class="mdl-layout-title" style="color: white; background-color: #0d47a1;"><strong>ServiceDesk Poli</strong></span>
+      <br>
+      <span style="margin-left: 10px; color: black;"><i class="fas fa-user"></i><strong> {{tecnico.nombres}}</strong></span> 
+      <span style="margin-left: 10px; color: black;"><i class="fas fa-envelope-open-text"></i> {{tecnico.correo}}</span>   
+      <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" style="color: black;" href="/admin" ><i class="fas fa-clipboard-list"></i> Incidentes</a>
+          <a class="mdl-navigation__link" style="color: black;" href="/maquinas"><i class="fas fa-clipboard-list"></i> Equipos</a>
+          <a class="mdl-navigation__link" style="color: black;" href="/tecnicos"><i class="fas fa-clipboard-list"></i> Tecnicos</a>
+          <a style="color: black; margin-top: 360px;" class="mdl-navigation__link" href=""><i class="fas fa-external-link-alt"></i> Cerrar Sesión</a>
+      </nav>
+    </div>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+          <div class="mdl-cell mdl-cell--12-col">
+            <h2><strong>Reportes</strong></h2>
+          </div>
+          <br>
+          <div class="mdl-cell mdl-cell--12-col">
+            <h4><strong>Tecnico con mas incidentes</strong></h4>
+            <form class="row g-3">
+              <div class="col-auto">
+                <label>Fecha de inicio</label>
+                <input name="fechaInicioTecnico" [(ngModel)]="fechaInicioTecnico" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <label>Fecha Fin</label>
+                <input name="fechaFinTecnico" [(ngModel)]="fechaFinTecnico" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <br>
+                <button class="btn btn-primary mb-3" (click)="tecnicoConMasIncidentes()">Buscar</button>
+              </div> 
+            </form>
+          </div>
+          <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
+              <thead style="text-align: center;">
+                <tr>
+                  <th style="text-align: center;" ><strong>Nombre Tipo Incidente - Numero de Incidentes</strong></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tecnicoMasIncidentes of tecnicoMasIncidente">
+                  <td style="text-align: center;">{{ tecnicoMasIncidentes }}</td>
+                </tr> 
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <div class="mdl-cell mdl-cell--12-col">
+            <h4><strong>Usuario con mas incidentes</strong></h4>
+            <form class="row g-3">
+              <div class="col-auto">
+                <label>Fecha de inicio</label>
+                <input name="fechaInicioTecnico" [(ngModel)]="fechaInicioUsuario" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <label>Fecha Fin</label>
+                <input name="fechaFinTecnico" [(ngModel)]="fechaFinUsuario" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <br>
+                <button class="btn btn-primary mb-3" (click)="usuarioConMasIncidentes()">Buscar</button>
+              </div> 
+            </form>
+          </div>
+          <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
+              <thead style="text-align: center;">
+                <tr>
+                <th style="text-align: center;" ><strong>Correo Usuario - Numero de documento - Numero de Incidentes</strong></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let usuarioMasIncidentes of usuarioMasIncidente">
+                  <td style="text-align: center;">{{ usuarioMasIncidentes }}</td>
+                </tr> 
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <div class="mdl-cell mdl-cell--12-col">
+            <h4><strong>Tipo de Incidente mas reportado</strong></h4>
+            <form class="row g-3">
+              <div class="col-auto">
+                <label>Fecha de inicio</label>
+                <input name="fechaInicioTecnico" [(ngModel)]="fechaInicioTipo" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <label>Fecha Fin</label>
+                <input name="fechaFinTecnico" [(ngModel)]="fechaFinTipo" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <br>
+                <button class="btn btn-primary mb-3" (click)="tipoIncidenteMasReportado()">Buscar</button>
+              </div> 
+            </form>
+          </div>
+          <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
+              <thead style="text-align: center;">
+                <tr>
+                <th style="text-align: center;" ><strong>Nombre Tipo Incidente - Numero de Incidentes</strong></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tipoMasIncidentes of tipoMasIncidente">
+                  <td style="text-align: center;">{{ tipoMasIncidentes }}</td>
+                </tr> 
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <div class="mdl-cell mdl-cell--12-col">
+            <h4><strong>Incidentes Total Cerrados</strong></h4>
+            <form class="row g-3">
+              <div class="col-auto">
+                <label>Fecha de inicio</label>
+                <input name="fechaInicioTecnico" [(ngModel)]="fechaInicioIncidentesCerrados" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <label>Fecha Fin</label>
+                <input name="fechaFinTecnico" [(ngModel)]="fechaFinIncidentesCerrados" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <br>
+                <button class="btn btn-primary mb-3" (click)="incidentesTotalCerrados()">Buscar</button>
+              </div> 
+            </form>
+          </div>
+          <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
+              <thead style="text-align: center;">
+                <tr>
+                  <th style="text-align: center;" ><strong>Id Incidente</strong></th>
+                  <th style="text-align: center;" ><strong>Fecha Registro</strong></th>
+                  <th style="text-align: center;" ><strong>Fecha Solución</strong></th>
+                  <th style="text-align: center;" ><strong>Correo Usuario</strong></th>
+                  <th style="text-align: center;" ><strong>Tecnico</strong></th>
+                  <th style="text-align: center;" >N° Computador</th>
+                  <th style="text-align: center;" >Bloque Dependencia</th>
+                  <th style="text-align: center;" >N° Depedencia</th>       
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let incidenteActivo of incidentesActivos.body;">
+                  <td style="text-align: center;">{{ incidenteActivo.idIncidente }}</td>
+                  <td style="text-align: center;">{{ incidenteActivo.fecha }}</td>
+                  <td style="text-align: center;">{{ incidenteActivo.fechaSolucion }}</td>
+                  <td style="text-align: center;">{{ incidenteActivo.usuario.correo}}</td>
+                  <td style="text-align: center;">{{ incidenteActivo.tecnico.nombres}}</td>
+                  <td style="text-align: center;">{{ incidenteActivo.maquina.numeroComputador}}</td>
+                  <td style="text-align: center;">{{ incidenteActivo.maquina.bloqueDependencia.nombreBloqueDependencia}}</td>
+                  <td style="text-align: center;">{{ incidenteActivo.maquina.numeroDependencia.numeroDependencia}}</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <div class="mdl-cell mdl-cell--12-col">
+            <h4><strong>Incidentes Total Abiertos</strong></h4>
+            <form class="row g-3">
+              <div class="col-auto">
+                <label>Fecha de inicio</label>
+                <input name="fechaInicioTecnico" [(ngModel)]="fechaInicioIncidentesAbiertos" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <label>Fecha Fin</label>
+                <input name="fechaFinTecnico" [(ngModel)]="fechaFinIncidentesAbiertos" type="date" class="form-control">
+              </div>
+              <div class="col-auto">
+                <br>
+                <button class="btn btn-primary mb-3" (click)="incidentesTotalAbiertos()">Buscar</button>
+              </div> 
+            </form>
+          </div>
+          <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 100%;">
+              <thead style="text-align: center;">
+                <tr>
+                  <th style="text-align: center;" ><strong>Id Incidente</strong></th>
+                  <th style="text-align: center;" ><strong>Fecha Registro</strong></th>
+                  <th style="text-align: center;" ><strong>Correo Usuario</strong></th>
+                  <th style="text-align: center;" ><strong>Tecnico</strong></th>
+                  <th style="text-align: center;" >N° Computador</th>
+                  <th style="text-align: center;" >Bloque Dependencia</th>
+                  <th style="text-align: center;" >N° Depedencia</th>       
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let incidenteInactivo of incidentesInactivos.body;">
+                  <td style="text-align: center;">{{ incidenteInactivo.idIncidente }}</td>
+                  <td style="text-align: center;">{{ incidenteInactivo.fecha }}</td>
+                  <td style="text-align: center;">{{ incidenteInactivo.usuario.correo}}</td>
+                  <td style="text-align: center;">{{ incidenteInactivo.tecnico.nombres}}</td>
+                  <td style="text-align: center;">{{ incidenteInactivo.maquina.numeroComputador}}</td>
+                  <td style="text-align: center;">{{ incidenteInactivo.maquina.bloqueDependencia.nombreBloqueDependencia}}</td>
+                  <td style="text-align: center;">{{ incidenteInactivo.maquina.numeroDependencia.numeroDependencia}}</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </main>
+  </div>
+  

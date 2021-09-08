@@ -1,1 +1,118 @@
-<p>formulario works!</p>
+<div
+  class="
+    mdl-layout mdl-js-layout
+    mdl-layout--fixed-drawer mdl-layout--fixed-header
+  "
+>
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <div class="mdl-layout-spacer"> 
+        <h4><strong>Formulario Incidentes</strong></h4>
+      </div>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer" style="background-color: whitesmoke; border-radius: 10px">
+    <span class="mdl-layout-title" style="color: white; background-color: #0d47a1;"><strong>ServiceDesk Poli</strong></span>
+    <br>
+    <span style="margin-left: 10px; color: black;"><i class="fas fa-user"></i><strong> {{tecnicoData.nombres}}</strong></span> 
+    <span style="margin-left: 10px; color: black;"><i class="fas fa-envelope-open-text"></i> {{tecnicoData.correo}}</span>   
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" style="color: black;" href="/formulario"><i class="fab fa-wpforms"></i> Formulario Incidentes</a>
+      <a style="margin-top: 480px; color: black;" class="mdl-navigation__link" href="/"><i class="fas fa-external-link-alt"></i> Cerrar Sesión</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col">
+                <form>
+                    <div class="mdl-grid">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--5-col">
+                          <input class="mdl-textfield__input" type="date" id="fecha" name="fecha" [(ngModel)]="fecha"/>
+                          <label class="mdl-textfield__label" for="fecha">Fecha</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--5-col">
+                          <input class="mdl-textfield__input" type="number" id="numeroDocumento" name="numeroDocumento" [(ngModel)]="numeroDocumento"/>
+                          <label class="mdl-textfield__label" for="numeroDocumento">Numero Documento</label>
+                        </div>
+                        <button style="border-radius: 17px;background-color: #002171; color: white;" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-cell mdl-cell--2-col" (click)="validarUsuario()">
+                            Validar Usuario  
+                        </button>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--3-col">
+                            <select class="mdl-textfield__input" id="tipoDependencia" name="tipoDependencia" [(ngModel)]="tipoDependencia">
+                              <option></option>
+                              <option>Administracion</option>
+                              <option>Laboratorio</option>
+                              <option>Aula</option>
+                            </select>
+                            <label class="mdl-textfield__label" for="tipoDependencia">Tipo Dependencia</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--2-col">
+                            <select class="mdl-textfield__input" id="bloqueDeDependencia" name="bloqueDeDependencia" [(ngModel)]="bloqueDependencia">
+                              <option></option>
+                              <option>P17</option>
+                              <option>P13</option>
+                            </select>
+                            <label class="mdl-textfield__label" for="bloqueDeDependencia">Bloque de Dependencia</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--3-col">
+                            <select class="mdl-textfield__input" id="numeroDependencia" name="numeroDependencia" [(ngModel)]="numeroDependencia">
+                              <option></option>
+                              <option>301</option>
+                              <option>201</option>
+                            </select>
+                            <label class="mdl-textfield__label" for="numeroDependencia">Numero de Dependencia</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--2-col">
+                          <input class="mdl-textfield__input" type="number" id="number" name="numeroEquipo" [(ngModel)]="numeroEquipo"/>
+                          <label class="mdl-textfield__label" for="number">Numero de Equipo</label>
+                        </div>
+                        <button style="border-radius: 17px;background-color: #002171; color: white;" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-cell mdl-cell--2-col" (click)="validarMaquina()">
+                            Validar Maquina 
+                        </button>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <textarea class="mdl-textfield__input" type="text" id="problemaUsuario" rows="2" name="problemaUsuario"  [(ngModel)]="problemaUsuario"> </textarea>
+                            <label class="mdl-textfield__label" for="problemaUsuario">Declaracion usuario</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--6-col">
+                            <select (change)="arrayTipoTecnicos()" class="mdl-textfield__input" id="tipoIncidente" name="tipoIncidente" [(ngModel)]="tipoIncidente">
+                                <option></option>
+                                <option>Redes - Comunicaciones</option>
+                                <option>Mantenimiento</option>
+                                <option>Sistemas Operativos</option>
+                                <option>Servidores</option>
+                              </select>
+                              <label class="mdl-textfield__label" for="tipoIncidente">Tipo de Incidente</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--6-col">
+                            <select class="mdl-textfield__input" [(ngModel)]="solucionCallCenter" id="solucionadoPorCallCenter" name="solucionadoPorCallCenter" (ngModelChange)="mostrarContenido()">
+                                <option></option>
+                                <option>Sí</option>
+                                <option>No</option>
+                              </select>
+                              <label class="mdl-textfield__label" for="solucionadoPorCallCenter">Solucionado Por Call Center</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                          <textarea class="mdl-textfield__input" type="text" id="declaracionCallCenter" rows="2" name="declaracionCallCenter" [(ngModel)]="declaracionCallcenter"> </textarea>
+                          <label class="mdl-textfield__label" for="declaracionCallCenter">Declaracion CallCenter</label>
+                        </div>
+                        <div *ngIf="mostrarTecnico" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--6-col">
+                            <select class="mdl-textfield__input" id="tecnico" name="tecnico" [(ngModel)]="tecnico">
+                                <option></option>
+                                <option value="" *ngFor="let tecnicoTipoIncidente of tecnicosTipoIncidente.body">
+                                  {{tecnicoTipoIncidente.nombres}}
+                                </option>
+                              </select>
+                              <label class="mdl-textfield__label" for="tecnico">Seleccione el Tecnico</label>
+                        </div>
+                      </div>
+                      <button type="submit" style="border-radius: 17px;background-color: #002171; color: white;" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-cell mdl-cell--12-col" (click)="registrarIncidente()">
+                        Registrar Incidente
+                      </button>
+                      <div id="orderBusyIndicator" class="mdl-spinner mdl-js-spinner"></div>
+                </form>
+              </div>
+        </div>
+    </div>
+  </main>
+</div>
